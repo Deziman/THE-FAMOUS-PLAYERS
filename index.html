@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0a4d1c"/>
+  <title>The Famous Players</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green-dark:  #0a4d1c;
+      --green-mid:   #1a7a34;
+      --green-light: #2db84b;
+      --yellow:      #f5c518;
+      --yellow-glow: rgba(245,197,24,.35);
+      --white:       #ffffff;
+      --white-soft:  rgba(255,255,255,.88);
+      --overlay:     rgba(5,30,10,.74);
+      --nav-h:       64px;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Montserrat',sans-serif;
+      background:var(--green-dark);
+      color:var(--white);
+      overflow-x:hidden;
+    }
+    a { text-decoration:none; }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem;
+      background:rgba(5,30,10,.92);
+      backdrop-filter:blur(12px);
+      border-bottom:2px solid var(--green-light);
+    }
+    .nav-logo {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:1.9rem; letter-spacing:4px;
+      color:var(--yellow);
+      text-shadow:0 0 18px var(--yellow-glow);
+    }
+    .nav-links {
+      display:flex; gap:2.2rem; list-style:none;
+    }
+    .nav-links a {
+      color:var(--white-soft); font-weight:600;
+      font-size:.82rem; letter-spacing:2px; text-transform:uppercase;
+      position:relative; transition:color .3s; padding:.25rem 0;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-3px; left:0;
+      width:0; height:2px; background:var(--yellow); transition:width .3s;
+    }
+    .nav-links a:hover { color:var(--yellow); }
+    .nav-links a:hover::after { width:100%; }
+
+    /* Hamburger */
+    .hamburger {
+      display:none;
+      flex-direction:column; justify-content:center; align-items:center;
+      gap:5px; width:44px; height:44px;
+      background:none; border:none; cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .hamburger span {
+      display:block; width:26px; height:2.5px;
+      background:var(--white); border-radius:2px;
+      transition:transform .35s, opacity .25s, width .25s;
+    }
+    .hamburger.open span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2){ opacity:0; width:0; }
+    .hamburger.open span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      position:fixed; top:var(--nav-h); left:0; right:0; z-index:190;
+      background:rgba(5,30,10,.97);
+      backdrop-filter:blur(14px);
+      border-bottom:2px solid var(--green-light);
+      transform:translateY(-110%);
+      transition:transform .38s cubic-bezier(.4,0,.2,1);
+    }
+    .mobile-menu.open { transform:translateY(0); }
+    .mobile-menu ul   { list-style:none; padding:.5rem 0 1rem; }
+    .mobile-menu li   { border-bottom:1px solid rgba(255,255,255,.06); }
+    .mobile-menu a    {
+      display:block; padding:1.1rem 2rem;
+      color:var(--white-soft); font-weight:700;
+      letter-spacing:3px; font-size:.85rem; text-transform:uppercase;
+      transition:color .2s, background .2s;
+    }
+    .mobile-menu a:hover, .mobile-menu a:active {
+      color:var(--yellow); background:rgba(245,197,24,.06);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      min-height:100svh;
+      padding: calc(var(--nav-h) + 2.5rem) 1.5rem 4rem;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+    }
+    .section-label {
+      font-size:.72rem; letter-spacing:5px; text-transform:uppercase;
+      color:var(--yellow); margin-bottom:.8rem; text-align:center;
+    }
+    .section-title {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(2.4rem,7vw,5rem); letter-spacing:4px; line-height:1.0;
+      color:var(--white); margin-bottom:1.5rem; text-align:center;
+    }
+
+    /* ── HOME ── */
+    #home {
+      background:
+        linear-gradient(var(--overlay),var(--overlay)),
+        url('./img/tfp.jpeg') center/cover no-repeat;
+      text-align:center;
+    }
+    .home-badge {
+      font-size:.72rem; letter-spacing:4px; text-transform:uppercase;
+      color:var(--yellow); border:1px solid var(--yellow);
+      padding:5px 18px; border-radius:20px; margin-bottom:1.2rem;
+      display:inline-block;
+      animation:fadeDown .8s ease both;
+    }
+    .home-title {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(3.2rem,14vw,8rem);
+      line-height:.95; letter-spacing:6px;
+      text-shadow:0 4px 40px rgba(0,0,0,.65);
+      animation:fadeDown .9s .1s ease both;
+    }
+    .home-title span { color:var(--green-light); }
+    .home-sub {
+      margin-top:1rem; font-size:clamp(.8rem,2.5vw,1rem);
+      font-weight:300; letter-spacing:3px; color:var(--white-soft);
+      animation:fadeDown .9s .2s ease both;
+    }
+
+    /* Buttons */
+    .home-buttons {
+      display:flex; flex-wrap:wrap; gap:1rem;
+      justify-content:center; margin-top:2.2rem;
+      animation:fadeUp 1s .4s ease both;
+    }
+    .btn {
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.9rem 1.6rem; border-radius:6px;
+      font-family:'Montserrat',sans-serif;
+      font-weight:700; font-size:.8rem;
+      letter-spacing:1.8px; text-transform:uppercase;
+      cursor:pointer; transition:transform .2s, box-shadow .3s;
+      white-space:nowrap; min-height:48px;
+    }
+    .btn-primary {
+      background:var(--green-light); color:var(--white);
+      border:2px solid var(--green-light);
+      box-shadow:0 0 20px rgba(45,184,75,.4);
+    }
+    .btn-primary:hover, .btn-primary:active {
+      transform:translateY(-3px);
+      box-shadow:0 0 35px rgba(45,184,75,.7);
+    }
+    .btn-secondary {
+      background:transparent; color:var(--yellow);
+      border:2px solid var(--yellow);
+      box-shadow:0 0 16px var(--yellow-glow);
+    }
+    .btn-secondary:hover, .btn-secondary:active {
+      background:var(--yellow); color:var(--green-dark);
+      transform:translateY(-3px);
+      box-shadow:0 0 35px rgba(245,197,24,.6);
+    }
+
+    /* Socials */
+    .social-row {
+      display:flex; flex-wrap:wrap; gap:1.8rem;
+      margin-top:2.8rem; justify-content:center;
+      animation:fadeUp 1s .6s ease both;
+    }
+    .social-link {
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      color:var(--white-soft); font-size:.68rem;
+      letter-spacing:2px; text-transform:uppercase;
+      transition:color .3s, transform .3s; min-width:56px;
+    }
+    .social-link svg { width:30px; height:30px; fill:currentColor; }
+    .social-link:hover, .social-link:active { color:var(--yellow); transform:translateY(-4px); }
+    .social-divider { width:50px; height:1px; background:var(--green-light); margin:2rem auto 0; }
+
+    /* ── ABOUT ── */
+    #about { background:linear-gradient(135deg,#071f0d 0%,#0f3d1e 60%,#0a4d1c 100%); }
+    .about-desc {
+      max-width:580px; text-align:center;
+      color:var(--white-soft); font-size:.93rem; line-height:1.75;
+    }
+    .about-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:1.2rem; width:100%; max-width:900px; margin-top:1.8rem;
+    }
+    .about-card {
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(45,184,75,.25);
+      border-radius:10px; padding:1.6rem 1.4rem;
+      transition:border-color .3s, transform .3s;
+    }
+    .about-card:hover { border-color:var(--yellow); transform:translateY(-5px); }
+    .about-card h3 {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:1.35rem; letter-spacing:2px;
+      color:var(--green-light); margin-bottom:.6rem;
+    }
+    .about-card p { font-size:.87rem; line-height:1.7; color:var(--white-soft); }
+
+    /* ── CONTACT ── */
+    #contact { background:radial-gradient(ellipse at top left,#143d22 0%,#071a0e 70%); }
+    .contact-box {
+      width:100%; max-width:580px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(45,184,75,.3);
+      border-radius:14px; padding:2.5rem 2rem; margin-top:1.5rem;
+    }
+    .contact-item {
+      display:flex; align-items:flex-start; gap:1.1rem;
+      padding:1.2rem 0; border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .contact-item:last-child { border-bottom:none; }
+    .contact-icon {
+      width:46px; height:46px; flex-shrink:0;
+      background:rgba(45,184,75,.12);
+      border:1px solid var(--green-light); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .contact-icon svg { width:20px; height:20px; fill:var(--green-light); }
+    .contact-info label {
+      display:block; font-size:.68rem; letter-spacing:3px;
+      text-transform:uppercase; color:var(--yellow); margin-bottom:4px;
+    }
+    .contact-info span { font-size:.93rem; color:var(--white-soft); word-break:break-all; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align:center; padding:1.8rem 1rem;
+      background:rgba(0,0,0,.4);
+      border-top:1px solid rgba(45,184,75,.2);
+      font-size:.75rem; letter-spacing:2px; color:rgba(255,255,255,.35);
+    }
+    footer span { color:var(--yellow); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from{ opacity:0; transform:translateY(-22px); }
+      to  { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeUp {
+      from{ opacity:0; transform:translateY(22px); }
+      to  { opacity:1; transform:translateY(0); }
+    }
+
+    /* ══ TABLET ≤ 768px ══ */
+    @media (max-width:768px) {
+      .hamburger { display:flex; }
+      .nav-links  { display:none; }
+
+      .home-title { letter-spacing:3px; }
+      .home-buttons { flex-direction:column; align-items:center; }
+      .btn { width:min(320px,85vw); justify-content:center; }
+
+      .about-grid { grid-template-columns:1fr 1fr; }
+      .contact-box { padding:1.8rem 1.3rem; }
+    }
+
+    /* ══ MOBILE ≤ 480px ══ */
+    @media (max-width:480px) {
+      :root { --nav-h:58px; }
+      .nav-logo { font-size:1.5rem; letter-spacing:3px; }
+      section { padding: calc(var(--nav-h) + 1.8rem) 1.1rem 3rem; }
+      .home-badge { font-size:.62rem; letter-spacing:3px; }
+      .social-row { gap:1.2rem; }
+      .social-link { font-size:.6rem; }
+      .about-grid { grid-template-columns:1fr; }
+      .contact-box { padding:1.5rem 1rem; }
+      .contact-info span { font-size:.85rem; }
+    }
+
+    /* ══ TINY ≤ 360px ══ */
+    @media (max-width:360px) {
+      .home-title { font-size:clamp(2.6rem,16vw,4rem); }
+      .btn { font-size:.72rem; letter-spacing:1px; padding:.8rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <div class="nav-logo">TFP</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <ul>
+      <li><a href="#home"    class="menu-link">Home</a></li>
+      <li><a href="#about"   class="menu-link">About</a></li>
+      <li><a href="#contact" class="menu-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="home-badge">Ghana's Finest Dance Crew</div>
+    <h1 class="home-title">The<br/><span>Famous</span><br/>Players</h1>
+    <p class="home-sub">We move. We inspire. We dominate.</p>
+
+    <div class="home-buttons">
+      <a class="btn btn-primary" href="https://wa.me/2332421468" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.57A11.95 11.95 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.65-.5-5.22-1.44l-.37-.22-3.69.93.98-3.58-.24-.38A9.94 9.94 0 0 1 2 12C2 6.48 6.48 2 12 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22 12c0 5.52-4.48 10-10 10zm5.44-7.6c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.68.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07a8.12 8.12 0 0 1-2.39-1.47 9.02 9.02 0 0 1-1.66-2.06c-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51l-.58-.01c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.05 2.85 1.2 3.05c.15.2 2.07 3.16 5.01 4.43.7.3 1.25.48 1.67.62.7.22 1.34.19 1.84.11.56-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+        </svg>
+        Book Us Now
+      </a>
+      <a class="btn btn-secondary" href="https://chat.whatsapp.com/DN33xlgUT9WGVPvMIAivi7" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.6 5.97L0 24l6.22-1.57A11.95 11.95 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.65-.5-5.22-1.44l-.37-.22-3.69.93.98-3.58-.24-.38A9.94 9.94 0 0 1 2 12C2 6.48 6.48 2 12 2c2.67 0 5.18 1.04 7.07 2.93A9.93 9.93 0 0 1 22 12c0 5.52-4.48 10-10 10zm5.44-7.6c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.68.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07a8.12 8.12 0 0 1-2.39-1.47 9.02 9.02 0 0 1-1.66-2.06c-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51l-.58-.01c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46s1.05 2.85 1.2 3.05c.15.2 2.07 3.16 5.01 4.43.7.3 1.25.48 1.67.62.7.22 1.34.19 1.84.11.56-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/>
+        </svg>
+        Join Our Dance Class
+      </a>
+    </div>
+
+    <div class="social-row">
+      <a class="social-link" href="https://www.instagram.com/thefamousplayers?igsh=aXp6emx0eXdsYmNu" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Instagram
+      </a>
+      <a class="social-link" href="https://www.tiktok.com/@thefamousplayers?_r=1&_t=ZS-94jjOF4QPZc" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.28 8.28 0 0 0 4.84 1.54V6.78a4.85 4.85 0 0 1-1.07-.09z"/></svg>
+        TikTok
+      </a>
+      <a class="social-link" href="https://youtube.com/@thefamousplayers?si=2dSVit9_2mnmrq4a" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        YouTube
+      </a>
+    </div>
+    <div class="social-divider"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">Who We Are</p>
+    <h2 class="section-title">The Famous Players</h2>
+    <p class="about-desc">We are Ghana's most electrifying dance crew — born from passion, forged by discipline, and driven by the love of movement. From the streets to the stage, we bring energy, creativity, and style to every performance.</p>
+    <div class="about-grid">
+      <div class="about-card"><h3>🔥 Our Mission</h3><p>To inspire the next generation of dancers through world-class training, high-energy performances, and a community built on respect and excellence.</p></div>
+      <div class="about-card"><h3>🎯 Our Vision</h3><p>To be recognized as Africa's premier dance crew, taking Ghanaian street dance to international stages and competitions worldwide.</p></div>
+      <div class="about-card"><h3>💃 Our Style</h3><p>We blend afrobeats, street dance, hip-hop, and contemporary styles into a unique fusion that is unmistakably The Famous Players.</p></div>
+      <div class="about-card"><h3>🏆 Our Achievements</h3><p>Multiple regional competition wins, viral social media moments, and a rapidly growing community of dancers and fans across Ghana and beyond.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-box">
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg></div>
+        <div class="contact-info"><label>Phone</label><span>0242146848</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        <div class="contact-info"><label>Email</label><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e89c808d8e8985879d9b988489918d9a9b8f80a88f85898184c68b8785">[email&#160;protected]</a></span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></div>
+        <div class="contact-info"><label>Location</label><span>Steps in the City, Tsado</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 <span>The Famous Players</span>. All rights reserved. &nbsp;|&nbsp; Ghana's Finest.
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuLinks  = document.querySelectorAll('.menu-link');
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded','false');
+      mobileMenu.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    menuLinks.forEach(l => l.addEve
